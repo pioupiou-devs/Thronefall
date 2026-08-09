@@ -1,7 +1,5 @@
 using System;
 
-namespace CityBuilder.EventBus
-{
     /// <summary>
     /// Read-only contract for an event binding, used internally by <see cref="EventBus{T}"/>.
     /// </summary>
@@ -10,4 +8,3 @@ namespace CityBuilder.EventBus
         Action<T> OnEvent       { get; set; }
         Action    OnEventNoArgs { get; set; }
     }
-}

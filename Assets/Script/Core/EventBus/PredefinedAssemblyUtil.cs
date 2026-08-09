@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace CityBuilder.EventBus
-{
     /// <summary>
     /// Scans predefined Unity assemblies (Assembly-CSharp, etc.) for types implementing
     /// a given interface.  Used by <see cref="EventBusUtil"/> to discover all <see cref="IEvent"/>
@@ -81,5 +79,4 @@ namespace CityBuilder.EventBus
 
         return results;
     }
-}
 }

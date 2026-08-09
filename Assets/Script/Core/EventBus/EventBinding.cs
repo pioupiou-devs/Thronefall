@@ -1,7 +1,5 @@
 using System;
 
-namespace CityBuilder.EventBus
-{
     /// <summary>
     /// Binds one or more callback methods to an event type.
     /// Create in OnEnable, register with <see cref="EventBus{T}.Register"/>,
@@ -37,4 +35,3 @@ namespace CityBuilder.EventBus
         public void Add(Action handler)       => _onEventNoArgs += handler;
         public void Remove(Action handler)    => _onEventNoArgs -= handler;
     }
-}

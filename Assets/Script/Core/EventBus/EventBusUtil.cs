@@ -6,8 +6,6 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
-namespace CityBuilder.EventBus
-{
     /// <summary>
     /// Initialises all <see cref="EventBus{T}"/> instances at startup (triggering static
     /// constructors) and clears every bus when exiting play mode in the Editor.
@@ -68,5 +66,4 @@ namespace CityBuilder.EventBus
             clearMethod?.Invoke(null, null);
         }
     }
-}
 }

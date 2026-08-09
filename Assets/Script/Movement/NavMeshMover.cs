@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.AI;
-using CityBuilder.EventBus;
 
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Entity))]

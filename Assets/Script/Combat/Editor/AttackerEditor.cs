@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(Attacker))]
+[CustomEditor(typeof(Attack))]
 [CanEditMultipleObjects]
 public class AttackerEditor : Editor
 {
@@ -47,7 +47,7 @@ public class AttackerEditor : Editor
         {
             if (GUILayout.Button("Try Attack (Current Target)"))
             {
-                var attacker = (Attacker)target;
+                var attacker = (Attack)target;
                 var targeting = attacker.GetComponent<Targeting>();
                 if (targeting == null || targeting.CurrentTarget == null)
                 {

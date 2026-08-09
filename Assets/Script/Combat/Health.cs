@@ -1,5 +1,4 @@
 using UnityEngine;
-using CityBuilder.EventBus;
 
 [RequireComponent(typeof(Entity))]
 public class Health : MonoBehaviour, IDamageable
@@ -16,7 +15,7 @@ public class Health : MonoBehaviour, IDamageable
 #endif
 
     private float currentHealth;
-    private bool isDead;
+    public bool isDead;
     [HideInInspector]
     public Entity Entity;
 

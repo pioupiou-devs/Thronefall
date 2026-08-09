@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Entity))]
-public class Attacker : MonoBehaviour
+public class Attack : MonoBehaviour
 {
     [SerializeField] private AttackStrategyData _strategyData;
     [SerializeReference] private IAttackStrategy _strategySelector;
@@ -23,13 +23,13 @@ public class Attacker : MonoBehaviour
     {
         if (_strategySelector == null || _strategyData == null)
         {
-            Debug.LogWarning($"[{nameof(Attacker)}] Both a strategy and strategy data must be assigned on '{name}'.", this);
+            Debug.LogWarning($"[{nameof(Attack)}] Both a strategy and strategy data must be assigned on '{name}'.", this);
             return;
         }
 
         var ctor = _strategySelector.GetType().GetConstructor(new[] { _strategyData.GetType() });
         if (ctor == null)
-            Debug.LogWarning($"[{nameof(Attacker)}] '{_strategySelector.GetType().Name}' has no constructor accepting '{_strategyData.GetType().Name}' on '{name}'.", this);
+            Debug.LogWarning($"[{nameof(Attack)}] '{_strategySelector.GetType().Name}' has no constructor accepting '{_strategyData.GetType().Name}' on '{name}'.", this);
     }
 #endif
 }

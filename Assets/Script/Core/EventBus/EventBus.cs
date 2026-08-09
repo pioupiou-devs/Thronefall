@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CityBuilder.EventBus
-{
     /// <summary>
     /// Generic, type-safe, static event bus.
     /// One bus is instantiated per <typeparamref name="T"/> event type at runtime.
@@ -40,4 +38,3 @@ namespace CityBuilder.EventBus
             _bindings.Clear();
         }
     }
-}

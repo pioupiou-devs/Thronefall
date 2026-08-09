@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 public class StateMachine<T> where T : Enum
 {
@@ -22,6 +23,8 @@ public class StateMachine<T> where T : Enum
             states[CurrentState].OnStateExit(previous, newState);
             CurrentState = newState;
             states[CurrentState].OnStateEnter(previous, newState);
+
+            UnityEngine.Debug.Log($"State changed from {previous} to {newState}");
         }
     }
 
