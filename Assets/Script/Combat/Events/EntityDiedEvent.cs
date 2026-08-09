@@ -2,10 +2,10 @@ using CityBuilder.EventBus;
 
 public readonly struct EntityDiedEvent : IEvent
 {
-    public readonly IDamageable Entity;
+    public readonly Entity Source;
 
-    public EntityDiedEvent(IDamageable entity)
+    public EntityDiedEvent(Entity source)
     {
-        Entity = entity;
+        Source = source;
     }
 }

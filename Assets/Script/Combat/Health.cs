@@ -1,6 +1,7 @@
 using UnityEngine;
 using CityBuilder.EventBus;
 
+[RequireComponent(typeof(Entity))]
 public class Health : MonoBehaviour, IDamageable
 {
     [SerializeField]
@@ -14,10 +15,13 @@ public class Health : MonoBehaviour, IDamageable
 
     private float currentHealth;
     private bool isDead;
+    [HideInInspector]
+    public Entity Entity;
 
     private void Awake()
     {
         currentHealth = maxHealth;
+        Entity = GetComponent<Entity>();
     }
 
     public void TakeDamage(Damage damage)
@@ -29,8 +33,9 @@ public class Health : MonoBehaviour, IDamageable
         if (currentHealth <= 0f)
         {
             isDead = true;
-            EventBus<EntityDiedEvent>.Raise(new EntityDiedEvent(this));
+            EventBus<EntityDiedEvent>.Raise(new EntityDiedEvent(Entity));
         }
+
     }
 
 }

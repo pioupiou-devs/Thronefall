@@ -18,10 +18,7 @@ public class ConsoleDebugger : MonoBehaviour
 
 	private void OnEntityDied(EntityDiedEvent eventData)
 	{
-		var entityComponent = eventData.Entity as MonoBehaviour;
-		string entityName = entityComponent != null
-			? entityComponent.name
-			: (eventData.Entity != null ? eventData.Entity.GetType().Name : "Unknown");
+		string entityName = eventData.Source != null ? eventData.Source.name : "Unknown";
 		Debug.Log($"[ConsoleDebugger] Entity died: {entityName}");
 	}
 }
