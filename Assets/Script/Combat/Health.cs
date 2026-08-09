@@ -10,7 +10,9 @@ public class Health : MonoBehaviour, IDamageable
 #if UNITY_EDITOR
     [Header("Debug")]
     [SerializeField]
+    #pragma warning disable CS0414 // read via SerializedProperty in HealthEditor
     private float debugDamageAmount = 10f;
+    #pragma warning restore CS0414
 #endif
 
     private float currentHealth;
