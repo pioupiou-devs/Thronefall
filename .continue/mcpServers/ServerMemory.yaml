@@ -1,0 +1,9 @@
+name: Server Memory MCP server
+version: 0.0.1
+schema: v1
+mcpServers:
+  - name: server-memory
+    command: npx
+    args:
+      - "-y"
+      - "@modelcontextprotocol/server-memory"

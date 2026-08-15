@@ -1,0 +1,8 @@
+name: Unity MCP server
+version: 0.0.1
+schema: v1
+mcpServers:
+  - name: unity-editor
+    command: uvx
+    args:
+      - mcp-for-unity
