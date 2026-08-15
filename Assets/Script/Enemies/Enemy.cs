@@ -3,8 +3,13 @@ using UnityEngine;
 
 [RequireComponent(typeof(Attack), typeof(Health))]
 [RequireComponent(typeof(Targeting), typeof(NavMeshMover))]
-public class Ennemy : Entity {
-    
+public class Enemy : Entity {
+
+    protected override Faction DefaultFaction => Faction.Enemy;
+
+    // Current state machine state (read-only)
+    public EnemyState CurrentState => stateMachine.CurrentState;
+
     // States
     private StateMachine<EnemyState> stateMachine;
     private EnemyStateFactory stateFactory;
@@ -38,6 +43,11 @@ public class Ennemy : Entity {
         stateMachine.Tick();
     }
 
+    private void OnDestroy()
+    {
+        EventBus<EntityDiedEvent>.Deregister(entityDiedBinding);
+    }
+
     private void InitializeStateMachine()
     {
         // Init state factory
@@ -45,18 +55,19 @@ public class Ennemy : Entity {
 
         // Create state machine
         stateMachine = stateFactory.CreateStateMachine(this);
-
-
     }
 
     private void OnEntityDied(EntityDiedEvent evt)
     {
         // Current enemy is dead
         if(evt.Source == this) 
+        {
             stateMachine.ChangeState(EnemyState.Dead);
+            return;
+        }
 
-        // Target killed so move on
+        // Target killed: go back to search so we drop the dead target and pick a new one
         if (evt.Source == targeting.CurrentTarget)
-            stateMachine.ChangeState(EnemyState.Move);
+            stateMachine.ChangeState(EnemyState.Search);
     }
 }

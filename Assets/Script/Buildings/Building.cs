@@ -6,6 +6,11 @@ using UnityEngine;
 [RequireComponent(typeof(Health))]
 public class Building : Entity
 {
+    protected override Faction DefaultFaction => Faction.Player;
+
+    // Current state machine state (read-only)
+    public BuildingState CurrentState => stateMachine.CurrentState;
+
     private StateMachine<BuildingState> stateMachine;
     private BuildingStateFactory stateFactory;
 

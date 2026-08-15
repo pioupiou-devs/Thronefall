@@ -32,8 +32,8 @@
 
 ## Communication Format Preference
 - For explanations, design proposals, and research findings, prefer diagram-first output in chat.
-- Use Mermaid diagrams, schemas, and flowcharts as the primary format; keep supporting text brief.
-- Favor compact visual structure (flow, sequence, component, state) over long prose.
+- Use **ASCII/plain-text diagrams** (flow, sequence, component, state) — the user cannot render Mermaid in-chat. Avoid Mermaid.
+- Keep supporting text brief. Favor compact visual structure over long prose.
 
 ## Feature-Addition Debugging Standard
 For each new feature, plan and include editor-first debugging aids:

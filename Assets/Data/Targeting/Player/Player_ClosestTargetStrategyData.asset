@@ -10,5 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b3ebd6744a547ef4f8c3eeaee9fdd5e8, type: 3}
-  m_Name: ClosestTargetStrategyData
+  m_Name: Player_ClosestTargetStrategyData
   m_EditorClassIdentifier: Assembly-CSharp::ClosestTargetStrategyData
+  targetFaction: 0

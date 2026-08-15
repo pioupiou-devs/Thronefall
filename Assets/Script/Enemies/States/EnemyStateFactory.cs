@@ -6,20 +6,20 @@ public class EnemyStateFactory
 {
     private StateMachine<EnemyState> stateMachine;
 
-    public StateMachine<EnemyState> CreateStateMachine(Ennemy ennemy)
+    public StateMachine<EnemyState> CreateStateMachine(Enemy enemy)
     {
-        stateMachine = new StateMachine<EnemyState>(EnemyState.Idle, CreateStates(ennemy));
+        stateMachine = new StateMachine<EnemyState>(EnemyState.Idle, CreateStates(enemy));
 
         return stateMachine;
     }
 
-    public Dictionary<EnemyState, State<EnemyState>> CreateStates(Ennemy ennemy)
+    public Dictionary<EnemyState, State<EnemyState>> CreateStates(Enemy enemy)
     {
         // Unfold components
-        ennemy.TryGetComponent<Attack>(out var attack);
-        ennemy.TryGetComponent<Targeting>(out var targeting);
-        ennemy.TryGetComponent<NavMeshMover>(out var mover);
-        ennemy.TryGetComponent<Health>(out var health);
+        enemy.TryGetComponent<Attack>(out var attack);
+        enemy.TryGetComponent<Targeting>(out var targeting);
+        enemy.TryGetComponent<NavMeshMover>(out var mover);
+        enemy.TryGetComponent<Health>(out var health);
 
 
         return new Dictionary<EnemyState, State<EnemyState>>

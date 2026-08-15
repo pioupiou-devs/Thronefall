@@ -6,6 +6,11 @@ public class Health : MonoBehaviour, IDamageable
     [SerializeField]
     private float maxHealth = 100f;
 
+    [Tooltip("If true, the GameObject is destroyed when health reaches 0 (e.g. units). " +
+             "If false it stays in the scene (e.g. buildings/player).")]
+    [SerializeField]
+    private bool destroyOnDeath = false;
+
 #if UNITY_EDITOR
     [Header("Debug")]
     [SerializeField]
@@ -35,6 +40,9 @@ public class Health : MonoBehaviour, IDamageable
         {
             isDead = true;
             EventBus<EntityDiedEvent>.Raise(new EntityDiedEvent(Entity));
+
+            if (destroyOnDeath)
+                Destroy(gameObject);
         }
 
     }
