@@ -6,6 +6,8 @@ public class ConsoleDebugger : MonoBehaviour
 	private EventBinding<WaveStartEvent> waveStartBinding;
 	private EventBinding<WaveClearedEvent> waveClearedBinding;
 	private EventBinding<GameOverEvent> gameOverBinding;
+	private EventBinding<HealthChangedEvent> healthChangedBinding;
+	private EventBinding<GamePhaseChangedEvent> gamePhaseChangedBinding;
 
 #if UNITY_EDITOR
 	[Header("Debug event triggers (used by ConsoleDebuggerEditor)")]
@@ -26,6 +28,12 @@ public class ConsoleDebugger : MonoBehaviour
 
 		gameOverBinding = new EventBinding<GameOverEvent>(OnGameOver);
 		EventBus<GameOverEvent>.Register(gameOverBinding);
+
+		healthChangedBinding = new EventBinding<HealthChangedEvent>(OnHealthChanged);
+		EventBus<HealthChangedEvent>.Register(healthChangedBinding);
+
+		gamePhaseChangedBinding = new EventBinding<GamePhaseChangedEvent>(OnGamePhaseChanged);
+		EventBus<GamePhaseChangedEvent>.Register(gamePhaseChangedBinding);
 	}
 
 	private void OnDisable()
@@ -34,6 +42,8 @@ public class ConsoleDebugger : MonoBehaviour
 		EventBus<WaveStartEvent>.Deregister(waveStartBinding);
 		EventBus<WaveClearedEvent>.Deregister(waveClearedBinding);
 		EventBus<GameOverEvent>.Deregister(gameOverBinding);
+		EventBus<HealthChangedEvent>.Deregister(healthChangedBinding);
+		EventBus<GamePhaseChangedEvent>.Deregister(gamePhaseChangedBinding);
 	}
 
 	private void OnEntityDied(EntityDiedEvent eventData)
@@ -55,6 +65,17 @@ public class ConsoleDebugger : MonoBehaviour
 	private void OnGameOver(GameOverEvent eventData)
 	{
 		Debug.Log($"[ConsoleDebugger] Game over: {(eventData.Victory ? "Victory" : "Defeat")}");
+	}
+
+	private void OnHealthChanged(HealthChangedEvent eventData)
+	{
+		string entityName = eventData.Source != null ? eventData.Source.name : "Unknown";
+		Debug.Log($"[ConsoleDebugger] Health changed: {entityName} {eventData.Current}/{eventData.Max}");
+	}
+
+	private void OnGamePhaseChanged(GamePhaseChangedEvent eventData)
+	{
+		Debug.Log($"[ConsoleDebugger] Phase changed: {eventData.Phase}");
 	}
 
 #if UNITY_EDITOR

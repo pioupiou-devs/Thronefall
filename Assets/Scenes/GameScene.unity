@@ -654,6 +654,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1588488567}
   - component: {fileID: 1588488566}
+  - component: {fileID: 1588488568}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -693,6 +694,25 @@ Transform:
   - {fileID: 410087041}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1588488568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1588488565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acace0a924c6223448062912b3677362, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GamePhaseFeedback
+  _dayNightLight: {fileID: 410087040}
+  _dayColor: {r: 1, g: 0.95, b: 0.85, a: 1}
+  _nightColor: {r: 0.15, g: 0.2, b: 0.45, a: 1}
+  _dayIntensity: 1
+  _nightIntensity: 0.25
+  _transitionSpeed: 2
+  _showPhaseLabel: 1
 --- !u!1 &1804216499
 GameObject:
   m_ObjectHideFlags: 0

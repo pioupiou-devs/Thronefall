@@ -36,6 +36,8 @@ public class Health : MonoBehaviour, IDamageable
 
         currentHealth -= damage.Amount;
 
+        EventBus<HealthChangedEvent>.Raise(new HealthChangedEvent(Entity, currentHealth, maxHealth));
+
         if (currentHealth <= 0f)
         {
             isDead = true;

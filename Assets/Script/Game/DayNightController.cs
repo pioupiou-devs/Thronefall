@@ -58,7 +58,7 @@ public class DayNightController : MonoBehaviour
         if (_phase != GamePhase.Day) return;
 
         _currentWave++;
-        _phase = GamePhase.Night;
+        SetPhase(GamePhase.Night);
         Debug.Log($"[DayNightController] Night {_currentWave} started.");
         EventBus<WaveStartEvent>.Raise(new WaveStartEvent(_currentWave));
     }
@@ -66,7 +66,14 @@ public class DayNightController : MonoBehaviour
     public void SetDay()
     {
         if (_phase == GamePhase.Victory || _phase == GamePhase.Defeat) return;
-        _phase = GamePhase.Day;
+        SetPhase(GamePhase.Day);
+    }
+
+    private void SetPhase(GamePhase next)
+    {
+        if (_phase == next) return;
+        _phase = next;
+        EventBus<GamePhaseChangedEvent>.Raise(new GamePhaseChangedEvent(_phase));
     }
 
     private void OnWaveCleared(WaveClearedEvent evt)
@@ -79,7 +86,7 @@ public class DayNightController : MonoBehaviour
             return;
         }
 
-        _phase = GamePhase.Day;
+        SetPhase(GamePhase.Day);
         Debug.Log($"[DayNightController] Night {evt.WaveIndex} cleared. Back to Day.");
     }
 
@@ -94,7 +101,7 @@ public class DayNightController : MonoBehaviour
 
     private void EndGame(bool victory)
     {
-        _phase = victory ? GamePhase.Victory : GamePhase.Defeat;
+        SetPhase(victory ? GamePhase.Victory : GamePhase.Defeat);
         Debug.Log($"[DayNightController] Game over: {(victory ? "Victory" : "Defeat")}.");
         EventBus<GameOverEvent>.Raise(new GameOverEvent(victory));
     }

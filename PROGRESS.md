@@ -58,6 +58,13 @@ Systems in code (all in global namespace / `Assembly-CSharp`, no asmdefs):
   button) → Night, raises `WaveStartEvent`; on `WaveClearedEvent` → Day (or Victory on last wave);
   on any `IsProtected` building death → Defeat; exposes read-only `CurrentPhase`/`CurrentWave` +
   editor debug buttons ("Start Night" / "Force Day").
+- **Feedback (visual, minimal)** — `HealthChangedEvent` (raised by `Health` on damage) +
+  `GamePhaseChangedEvent` (raised by `DayNightController` on every phase transition).
+  - `HealthFeedback` — red renderer hit-flash (lerps back) on damage; darkens on death; optional
+    `_deathBurst` particle spawn.
+  - `GamePhaseFeedback` — tweens a wired `Light` between day/night color+intensity; optional OnGUI
+    phase label.
+  - `ConsoleDebugger` logs the two new events.
 
 Scene: Player, one enemy "Cube", one Building placeholder, ground/lighting. No economy or night yet
 (user wires `DayNightController` in the Editor).
@@ -88,7 +95,7 @@ Scene: Player, one enemy "Cube", one Building placeholder, ground/lighting. No e
 - [x] **Spawner + waves** — spawn X enemies on `WaveStartEvent`.
 - [x] **Day/night system** — manual "start night" trigger (Input action or button); toggle between build (day) and defend (night).
 - [x] **Wave system** — trigger waves on night-start; count/clear waves (`WaveClearedEvent`); win condition (survive all waves → Victory).
-- [ ] **Building placement** — place defense buildings at map slots; build cost (basic).
+- [ ] **Building placement (prefab)** — place a defense building prefab (basic; construction cost/upgrades come with Phase 3 economy).
 - [x] **Protected building / lose condition** — `isProtected` flag on `Building` (multiple supported); if any protected building is razed → Defeat.
 
 ### Phase 2 — RTS part
@@ -120,3 +127,6 @@ Scene: Player, one enemy "Cube", one Building placeholder, ground/lighting. No e
 - **2026-08-15** — Building: Idle/Attack/Broken state machine implemented.
 - **2026-08-15** — Fixed enemy-not-attacking bug (use `args:` named param in `Activator.CreateInstance`).
 - **2026-08-15** — Day/night + wave system: `GamePhase` enum, `WaveClearedEvent`/`GameOverEvent`, `DayNightController` (Start Night action/button → Night, WaveCleared → Day/Victory, protected building death → Defeat; editor debug buttons), `EnemySpawner` now tracks alive enemies and raises `WaveClearedEvent`; `ConsoleDebugger` logs + trigger buttons for the new events.
+- **2026-08-15** — Protected flag moved onto `Building` (`isProtected`, multiple supported); `DayNightController` ends game if any protected building dies.
+- **2026-08-15** — Player movement is now relative to player rotation (`transform.TransformDirection`).
+- **2026-08-15** — Basic feedback: `HealthChangedEvent` + `GamePhaseChangedEvent`; `HealthFeedback` (hit-flash renderer tint, darken on death, optional death burst) + `GamePhaseFeedback` (day/night light tween + phase label); `ConsoleDebugger` logs both.
