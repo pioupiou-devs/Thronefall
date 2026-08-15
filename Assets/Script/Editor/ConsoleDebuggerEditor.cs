@@ -25,6 +25,18 @@ public class ConsoleDebuggerEditor : Editor
                 var dbg = (ConsoleDebugger)target;
                 dbg.TriggerEntityDied();
             }
+
+            if (GUILayout.Button("Raise WaveClearedEvent"))
+            {
+                var dbg = (ConsoleDebugger)target;
+                dbg.TriggerWaveCleared();
+            }
+
+            if (GUILayout.Button("Raise GameOverEvent"))
+            {
+                var dbg = (ConsoleDebugger)target;
+                dbg.TriggerGameOver();
+            }
         }
 
         if (!Application.isPlaying)

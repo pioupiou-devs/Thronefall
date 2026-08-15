@@ -8,11 +8,23 @@ public class Building : Entity
 {
     protected override Faction DefaultFaction => Faction.Player;
 
+    [Header("Gameplay")]
+    [SerializeField] private bool _isProtected;
+
+    public bool IsProtected => _isProtected;
+
+    protected virtual bool DefaultProtected => false;
+
     // Current state machine state (read-only)
     public BuildingState CurrentState => stateMachine.CurrentState;
 
     private StateMachine<BuildingState> stateMachine;
     private BuildingStateFactory stateFactory;
+
+    private void Reset()
+    {
+        _isProtected = DefaultProtected;
+    }
 
     private EventBinding<EntityDiedEvent> entityDiedBinding;
 

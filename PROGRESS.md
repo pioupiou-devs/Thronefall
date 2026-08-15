@@ -50,8 +50,17 @@ Systems in code (all in global namespace / `Assembly-CSharp`, no asmdefs):
   on `WaveStartEvent`; prefab-based; editor "Spawn Wave" debug button + spawn-point gizmo.
 - `ConsoleDebugger` — logs `EntityDiedEvent`/`WaveStartEvent`; editor has "Raise WaveStartEvent" /
   "Raise EntityDiedEvent" trigger buttons for testing.
+- `GamePhase` enum (`Day / Night / Victory / Defeat`).
+- `Building` — `isProtected` flag (serialized, `DefaultProtected`/`Reset()`); any number of buildings can be flagged.
+- `WaveClearedEvent` + `GameOverEvent` — wave-clear and win/lose broadcast events.
+- `EnemySpawner` — now tracks spawned-alive enemies; raises `WaveClearedEvent` when the last one dies.
+- `DayNightController` — phase state machine: "Start Night" (`StartNight` Input action or editor
+  button) → Night, raises `WaveStartEvent`; on `WaveClearedEvent` → Day (or Victory on last wave);
+  on any `IsProtected` building death → Defeat; exposes read-only `CurrentPhase`/`CurrentWave` +
+  editor debug buttons ("Start Night" / "Force Day").
 
-Scene: Player, one enemy "Cube", one Building placeholder, ground/lighting. No economy, waves, or night.
+Scene: Player, one enemy "Cube", one Building placeholder, ground/lighting. No economy or night yet
+(user wires `DayNightController` in the Editor).
 
 ## Gap analysis vs Thronefall
 
@@ -65,24 +74,42 @@ Scene: Player, one enemy "Cube", one Building placeholder, ground/lighting. No e
 | Allied units / recruiting | None | Big |
 | Building upgrades/specs | None | Medium |
 | Walls / chokepoints | None | Medium |
-| Faction targeting | Now added | Small || Perks/mutators/XP/weapons | None | Later |
+| Faction targeting | Now added | Small |
+| Perks/mutators/XP/weapons | None | Later |
 | Maps / campaign | 1 scene | Later |
 
-## Roadmap / next steps
+## Roadmap (phased)
 
-### Phase 1 — make what exists playable
+> Phase 1 goal: a simple tower-defense (build + defend against waves, lose if the
+> protected building is razed). No player combat until phase 5.
+
+### Phase 1 — simple tower defense
 - [x] **Faction targeting** — team enum on `Entity` + faction-aware `ClosestTargetStrategy` so towers/enemies don't hit allies.
-- [ ] **King combat** — give player a basic attack (reuse `Attack` strategy).
 - [x] **Spawner + waves** — spawn X enemies on `WaveStartEvent`.
+- [x] **Day/night system** — manual "start night" trigger (Input action or button); toggle between build (day) and defend (night).
+- [x] **Wave system** — trigger waves on night-start; count/clear waves (`WaveClearedEvent`); win condition (survive all waves → Victory).
+- [ ] **Building placement** — place defense buildings at map slots; build cost (basic).
+- [x] **Protected building / lose condition** — `isProtected` flag on `Building` (multiple supported); if any protected building is razed → Defeat.
 
-### Phase 2 — day/night economy loop
-- [ ] Gold/treasury + income from surviving buildings.
-- [ ] Building placement at map slots + build costs.
-- [ ] Allied units (recruit from barracks, command placement).
-- [ ] Walls / barricades.
+### Phase 2 — RTS part
+- [ ] **Troop management/placement** — recruit and position allied units on the map.
 
-### Phase 3 — depth
-- [ ] Building upgrade branches, more enemy/unit types, perks/mutators, multiple maps.
+### Phase 3 — economy & upgrades
+- [ ] **Money balance** — gold/treasury + methods to add/remove money; income.
+- [ ] **Upgrade system** — spend money to raise a building's level (basic level system).
+
+### Phase 4 — UI / menus
+- [ ] UI/menus (build, upgrade, start night, victory/defeat screens, HUD).
+
+### Phase 5 — improve existing features
+- [ ] More enemy types, building types, troop types.
+- [ ] **Player combat** — give the player a basic attack (reuse `Attack` strategy).
+
+### Phase 6 — configurability
+- [ ] Configurable map setup, level goals/constraints.
+
+### Phase 7 — later cleanup
+- [ ] Code cleanup, refactors, perf, polish.
 
 ## Log
 - **2026-08-15** — Added `Faction` enum on `Entity` (Enemy/Neutral/Player; buildings = Player) defaulted via `Reset()` per type; added `Player : Entity` subclass.
@@ -92,3 +119,4 @@ Scene: Player, one enemy "Cube", one Building placeholder, ground/lighting. No e
 - **2026-08-15** — Renamed `Ennemy` → `Enemy` (file/class/refs, GUID preserved so prefab keeps working); enemy re-targets after killing its target; `Enemy`/`Building` expose read-only `CurrentState`.
 - **2026-08-15** — Building: Idle/Attack/Broken state machine implemented.
 - **2026-08-15** — Fixed enemy-not-attacking bug (use `args:` named param in `Activator.CreateInstance`).
+- **2026-08-15** — Day/night + wave system: `GamePhase` enum, `WaveClearedEvent`/`GameOverEvent`, `DayNightController` (Start Night action/button → Night, WaveCleared → Day/Victory, protected building death → Defeat; editor debug buttons), `EnemySpawner` now tracks alive enemies and raises `WaveClearedEvent`; `ConsoleDebugger` logs + trigger buttons for the new events.

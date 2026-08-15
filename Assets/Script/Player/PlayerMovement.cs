@@ -49,7 +49,9 @@ public class PlayerMovement : MonoBehaviour
         }
 
         moveInput = moveAction.ReadValue<Vector2>();
-        Vector3 movement = moveSpeed * Time.fixedDeltaTime * new Vector3(moveInput.x, 0f, moveInput.y);
+        Vector3 inputDir = new Vector3(moveInput.x, 0f, moveInput.y);
+        Vector3 worldDir = transform.TransformDirection(inputDir);
+        Vector3 movement = moveSpeed * Time.fixedDeltaTime * worldDir;
         rb.MovePosition(rb.position + movement);
     }
 }
