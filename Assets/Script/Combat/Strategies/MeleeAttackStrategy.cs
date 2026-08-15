@@ -14,9 +14,15 @@ public class MeleeAttackStrategy : IAttackStrategy
         _data = data;
     }
 
+    public bool IsInRange(Entity self, Entity target)
+    {
+        if (_data == null || self == null || target == null) return false;
+        return Vector3.Distance(self.transform.position, target.transform.position) <= _data.range;
+    }
+
     public bool TryAttack(Entity self, Entity target)
     {
-        if (target == null) return false;
+        if (_data == null || target == null) return false;
 
         if (Time.time - _lastAttackTime < _data.cooldown) return false;
 

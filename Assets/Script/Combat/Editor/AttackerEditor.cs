@@ -59,6 +59,21 @@ public class AttackerEditor : Editor
                     Debug.Log($"[AttackerEditor] TryAttack on '{targeting.CurrentTarget.name}': {(hit ? "hit" : "missed (range or cooldown)")}.", attacker);
                 }
             }
+
+            if (GUILayout.Button("Log In-Range (Current Target)"))
+            {
+                var attacker = (Attack)target;
+                var targeting = attacker.GetComponent<Targeting>();
+                if (targeting == null || targeting.CurrentTarget == null)
+                {
+                    Debug.LogWarning($"[AttackerEditor] No current target on '{attacker.name}'. Add a Targeting component and call Refresh first.", attacker);
+                }
+                else
+                {
+                    bool inRange = attacker.IsInRange(targeting.CurrentTarget);
+                    Debug.Log($"[AttackerEditor] IsInRange '{targeting.CurrentTarget.name}': {inRange} (range {attacker.Range}).", attacker);
+                }
+            }
         }
 
         if (!Application.isPlaying)

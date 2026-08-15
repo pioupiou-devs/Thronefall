@@ -1,27 +1,47 @@
-# High-Level Architecture Summary
+# Unity C# Coding Guidelines
 
-## Main Systems
-- **GameManager**: Manages the overall game state and transitions.
-- **PlayerController**: Handles player input and movement.
-- **UISystem**: Manages all UI elements and interactions.
-- **NetworkLayer**: Handles network communication and synchronization.
-- **InputSystem**: Processes and provides input data to other systems.
+## Naming Conventions
+- **Private Fields:** Use _camelCase (e.g., `_entityDiedBinding`).
+- **Serialized Private Fields:** Use `[SerializeField] private int _speed;`.
+- **Statics:** Use `s_StaticName`.
+- **Constants:** Use `c_ConstantName`.
+- **Public Properties/Methods:** Use PascalCase (e.g., `OnEnable`, `OnDisable`, `OnEntityDied`).
 
-## Key Relations
-- `PlayerController depends_on InputSystem`
+## Performance Guardrails
+- **Avoid `GetComponent` or `Find` inside `Update()`:** These operations are costly and can lead to performance issues.
+- **Ensure Events are Properly Unhandled:** Failing to deregister events can lead to memory leaks.
+- **Minimize Garbage Collection Allocations:** Reuse objects where possible to reduce allocations.
 
-## Conventions
-- Private fields use _camelCase.
-- Serialized private fields use [SerializeField] private int _speed;
-- Statics use s_StaticName, Constants use c_ConstantName.
-- Public properties/methods use PascalCase.
+## MonoBehavior Checklist
+- **Initialize All Serialized Fields:** Ensure all serialized fields are properly initialized.
+- **Use `OnEnable` and `OnDisable`:** Manage component activation and deactivation.
+- **Avoid Expensive Operations in `Update` and `FixedUpdate`:** Offload expensive operations to other methods or use coroutines.
+
+## Example of Following Guidelines
+
+```csharp
+using UnityEngine;
+
+public class ConsoleDebugger : MonoBehaviour
+{
+    [SerializeField] private int _speed;
+    private EventBinding<EntityDiedEvent> _entityDiedBinding;
+
+    private void OnEnable()
+    {
+        _entityDiedBinding = new EventBinding<EntityDiedEvent>(OnEntityDied);
+        EventBus<EntityDiedEvent>.Register(_entityDiedBinding);
+    }
+
+    private void OnDisable()
+    {
+        EventBus<EntityDiedEvent>.Deregister(_entityDiedBinding);
+    }
+
+    private void OnEntityDied(EntityDiedEvent eventData)
+    {
+        string entityName = eventData.Source != null ? eventData.Source.name : "Unknown";
+        Debug.Log($"[ConsoleDebugger] Entity died: {entityName}");
+    }
+}
 ```
-
-### STEP 4: Summary & Status Report
-
-Finally, we'll provide a brief report summarizing the findings.
-
-```tool
-TOOL_NAME: filesystem_read_file
-BEGIN_ARG: path
-.continue/rules/unity-csharp.md

@@ -16,7 +16,7 @@ public class Targeting : MonoBehaviour
     private void Awake()
     {
         _selfEntity = GetComponent<Entity>();
-        _strategy = (ITargetingStrategy)Activator.CreateInstance(_strategySelector.GetType(), _strategyData);
+        _strategy = (ITargetingStrategy)Activator.CreateInstance(_strategySelector.GetType(), args: _strategyData);
     }
 
     public void Refresh()

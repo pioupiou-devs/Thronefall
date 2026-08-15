@@ -1,6 +1,17 @@
-# Long-Term Project Memory
+# High-Level Architecture Summary
 
-Before providing solutions to complex architectural questions or bug fixes:
-1. Check `.continue/memory.md` and `.continue/memory.md/rules/*.md`  for past project decisions, singletons, or custom event buses used in this repository.
-2. When the user says "remember this decision" or when solving a critical bug, update or remind the user to append the entry to `.continue/memory.md`.
-3. When the file become too large, consider creating rules in `.continue.md/rules/*.md` splitted by rule context.
+## Main Systems
+- **GameManager**: Manages the overall game state and transitions.
+- **PlayerController**: Handles player input and movement.
+- **UISystem**: Manages all UI elements and interactions.
+- **NetworkLayer**: Handles network communication and synchronization.
+- **InputSystem**: Processes and provides input data to other systems.
+
+## Key Relations
+- `PlayerController depends_on InputSystem`
+
+## Conventions
+- Private fields use _camelCase.
+- Serialized private fields use `[SerializeField] private int _speed;`.
+- Statics use `s_StaticName`, Constants use `c_ConstantName`.
+- Public properties/methods use PascalCase.

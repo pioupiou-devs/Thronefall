@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MeleeAttackStrategyData
   damage: 10
   cooldown: 1
+  range: 2

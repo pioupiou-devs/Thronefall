@@ -667,6 +667,7 @@ GameObject:
   - component: {fileID: 1492046575}
   - component: {fileID: 1492046574}
   - component: {fileID: 1492046577}
+  - component: {fileID: 1492046578}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -773,6 +774,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c00db617d9c876f43ad8a7c1ac934d9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Entity
+--- !u!114 &1492046578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1492046572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c804cb4470719f047936ec4987ea903b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Health
+  maxHealth: 100
+  debugDamageAmount: 10
+  isDead: 0
+  Entity: {fileID: 0}
 --- !u!1 &1696437895
 GameObject:
   m_ObjectHideFlags: 0

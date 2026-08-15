@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class EnemyStateFactory
 {
@@ -33,7 +34,7 @@ public class EnemyStateFactory
             },
             {
                 EnemyState.Move,
-                CreateMovingState(targeting, mover)
+                CreateMovingState(attack, targeting, mover)
             },
             {
                 EnemyState.Attack,
@@ -52,16 +53,10 @@ public class EnemyStateFactory
             isEnterAuthorized: () => targeting != null,
             onStateUpdate: () =>
             {
+                // Search only acquires a target; range/attack decision belongs to Move.
                 targeting.Refresh();
 
-                var target = targeting.CurrentTarget;
-                if(target == null) return;
-
-                // TODO check if is range             
-                bool isInAttackRange = false;
-                if(isInAttackRange)
-                    stateMachine.ChangeState(EnemyState.Attack);
-                else
+                if (targeting.CurrentTarget != null)
                     stateMachine.ChangeState(EnemyState.Move);
             }
             );
@@ -88,7 +83,12 @@ public class EnemyStateFactory
                 // Find attack target
                 var target = targeting.CurrentTarget;
 
-                // TODO : Add "if target not in range, move to it" + distance into targetting
+                // Target lost or out of range: chase it again
+                if (target == null || !attack.IsInRange(target))
+                {
+                    stateMachine.ChangeState(EnemyState.Move);
+                    return;
+                }
 
                 // Attack
                 attack.TryAttack(target);
@@ -96,18 +96,32 @@ public class EnemyStateFactory
         );
     }
 
-    private State<EnemyState> CreateMovingState(Targeting targeting, NavMeshMover mover)
+    private State<EnemyState> CreateMovingState(Attack attack, Targeting targeting, NavMeshMover mover)
     {
         return new State<EnemyState>(
-            isEnterAuthorized: () => mover != null && targeting != null,
+            isEnterAuthorized: () => attack != null && mover != null && targeting != null,
             onStateUpdate: () =>
             {
-                if(mover.IsMoving) return;
-
                 // Find attack target
                 var target = targeting.CurrentTarget;
 
-                mover.SetDestination(target.transform.position);                
+                // No target: go back to searching
+                if (target == null)
+                {
+                    stateMachine.ChangeState(EnemyState.Search);
+                    return;
+                }
+
+                // In range: stop chasing and attack
+                if (attack.IsInRange(target))
+                {
+                    stateMachine.ChangeState(EnemyState.Attack);
+                    return;
+                }
+
+                // Out of range: keep moving toward the target
+                if(!mover.IsMoving)
+                    mover.SetDestination(target.transform.position);
             },
             onStateExit: (from, to) =>
             {
