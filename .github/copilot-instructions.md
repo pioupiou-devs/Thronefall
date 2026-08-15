@@ -28,6 +28,7 @@
 - Before implementing a new feature or major refactor, validate the design with the user first.
 - Provide a short proposed design (data model, behaviors, events, editor/debug plan), then wait for confirmation.
 - If the user asks for immediate implementation, still include a concise design summary first and proceed.
+- **When the user asks for a *design proposal*, do NOT write any code.** Stop at the design in chat and wait for explicit approval to implement.
 
 ## Communication Format Preference
 - For explanations, design proposals, and research findings, prefer diagram-first output in chat.

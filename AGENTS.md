@@ -26,6 +26,7 @@ Unity 6 project (Unity **6000.5.7f1**, URP 17.5.0, Input System 1.20.0, AI Navig
 - **Never hand-edit `.unity` scene or `.meta` files** — make scene-level changes (adding components, wiring references) in the Unity Editor only, and let Unity regenerate `.meta` files itself. Do not modify them.
 - `.vscode/settings.json` hides `.asset`/`.meta`/`.prefab`/`.unity` files from the file explorer, but they are plain YAML and remain readable.
 - Custom inspectors live in `Editor/` subfolders (`*Editor.cs`). New features should include editor debug hooks, gizmos, and `ConsoleDebugger` log hooks; clean up temporary logs after validation.
+- **Design-first**: when the user asks for a *design proposal*, do **not** implement it. Only write code after the user explicitly says to implement.
 
 ## Stale docs to not trust
 - `.continue/memory.md` references GameManager/PlayerController/UISystem/NetworkLayer — these do **not** exist in the codebase.
